@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <title>Document</title>
+    <script>
+        //현재 페이지
+        let currentPage = 1;
+        //출력 행수
+        let itemPerPage = 10;
+        //페이징 번호 수
+        let buttonPerPage = 10;
+        //총 페이지 건수
+        let totalPages = 0;
+        function fn_loadData(page){
+            //$.ajax({}) -> get버전
+            $.get('https://api.upbit.com/v1/market/all', function(data){
+                console.log(data);
+                let start = (page -1)* itemPerPage;
+                let end = start + itemPerPage;
+                //테이블 생성
+                for(let i = start; i <end; i++){
+                    if(i >= data.length){
+                        break;
+                    }
+                    let str = '';
+                    str = '<tr><td>';
+                    str += (i +1) + '</td>';
+                    str += '<td>' + data[i].market + '</td>';
+                    str += '<td>' + data[i].english_name + '</td>';
+                    str += '<td>' + data[i].korean_name + '</td>';
+                    str += '<td>' + data[i].korean_name + '</td>';
+                    str += '</tr>' ;
+                    $('.page-data').append(str);
+                } 
+                totalPages = Math.ceil(data.length / itemPerPage); 
+                currentPage = page;
+               
+                fn_pageBtn(totalPages);
+
+            });
+        }
+        function fn_pageBtn(total){
+            //시작 페이지는 현재 페이지를 중심으로 , 첫번째 페이지 이전으로는 되지 않도록
+            let startPage = Math.max(1, currentPage - Math.floor(buttonsPerPage/2));
+            //c총 페이지 수를 초과하지 않도록
+            let endPage = Math.min(total, startPage + buttonPerPage -1);
+            //마지막 페이지가 총 페이지를 초과하지 않도록
+            tartPage = Math.max(1, endPage - buttonPerPage +1);
+            let str ="";
+            for(let i = startPage ; i <= endPage; i++){
+                str += '<li class="page-item"><a class="page-link" href="#">'+i+'</a></li>';
+            }
+            $('.page-list').after(str);
+        }
+        // <li class="page-item"><a class="page-link" href="#">1</a></li>
+        $(document).ready(fn_loadData(){
+            fn_loadData(currentPage);
+        });
+
+        
+    </script>
+</head>
+<body>
+    <div class="containerr-fluid">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <table class="table table-hover" id="tb_id">
+                    <tbody class="page-data"></tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item page-list">
+                        <a class="page-link" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                      <li class="page-item">
+                        <a class="page-link " href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</body>
+</html>

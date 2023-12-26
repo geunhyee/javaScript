@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script>
+        var api_url ='http://apis.data.go.kr/6300000/storyDaejeonService/storyDaejeonList';
+        let api_key ='ooHgKjGOv6++6VjX+TaUzOwzR+s5A7e2POBdLDDYUtLuVukhdc+gvq/l3o7RlmC+z2WvxmKGvMPyxS+VzuoDfg==';
+        $(document).ready(function(){
+            $('#btn').click(function(){
+                let rows = $('#row').val();
+                let page = $('#page').val();
+                $.ajax({
+                    url : api_url
+                    ,type : 'GET'
+                    ,dataType : 'xml'
+                    ,data : {serviceKey : api_key
+                            ,numOfRows : rows
+                            ,pageNo : page}
+                     ,success : function(res){
+                        //xml find 함수 xml의 <태그명>
+                        console.log(res);
+                  
+                    
+                },error(e){
+                    console.log(e)
+                }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="text" id="row" value="3">
+    <input type="text" id="page" value="1">
+    <button id="btn">가져오기</button>
+    <table id="tb">
+
+    </table>
+
+    
+</body>
+</html>

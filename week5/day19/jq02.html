@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#btn').click(function(){
+                $("#apple").animate({left: '100px'});
+
+            });
+            $('#btn').dblclick(function(){
+                $("#apple").animate({left: '0px'});
+
+            });
+           
+            $('#fadeIn').click(function(){
+                //메소드 체이닝
+                $('#단비').slideDown('fast').fadeIn('slow').fadeOut('slow'); //느리게 나타남
+            });
+            $('#fadeOut').click(function(){
+                $('#단비').fadeOut('fast'); //빠르게 나타남
+            });
+            $('#btn2').click(function(){
+                alert($('#apple').attr('src'));
+            });
+            $('#btn3').click(function(){
+                alert($('#apple').attr('src', '../../week1/img/단비.png'));
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="btn">animate()</button><br>
+    <button id="btn2">get attr()</button>
+    <button id="btn3">change src</button>
+    <img src="../../week1/img/apple.png" id="apple" width="120" height="100"
+    style="position: relative;" alt="">
+    <button id="fadeIn">fadeIn</button>
+    <button id="fadeOut">fadeOut</button><br>
+    <img src="../../week1/img/단비.png" id="단비" width="80" height="80"
+    style="position: relative;" alt="">
+   
+</body>
+</html>
